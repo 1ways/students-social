@@ -1,3 +1,7 @@
+import { useContext } from 'react'
+
+import { AuthContext } from '../context/AuthContext'
+
 import Dropdown from './Dropdown/index'
 
 import Avatar from '@mui/material/Avatar'
@@ -8,6 +12,8 @@ import settingsIcon from '../assets/images/settings.svg'
 import logoutIcon from '../assets/images/logout.svg'
 
 export default function ProfileDropdown() {
+    const { logout } = useContext(AuthContext)
+
     return (
         <Dropdown id='profile-dropdown'>
             <Dropdown.Button>
@@ -35,7 +41,7 @@ export default function ProfileDropdown() {
                 <ul className='dropdown__profile'>
                     <Dropdown.Item><img src={personIcon} alt='Profile icon' /> My profile</Dropdown.Item>
                     <Dropdown.Item><img src={settingsIcon} alt='Settings icon' /> Settings</Dropdown.Item>
-                    <Dropdown.Item className='dropdown__item dropdown__logout'>
+                    <Dropdown.Item className='dropdown__item dropdown__logout' onClick={logout}>
                         <img src={logoutIcon} alt='Settings icon' /> Log out
                     </Dropdown.Item>
                 </ul>

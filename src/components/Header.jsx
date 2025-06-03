@@ -1,4 +1,7 @@
+import { useContext } from 'react'
 import { Link } from 'react-router'
+
+import { AuthContext } from '../context/AuthContext'
 
 import ProfileDropdown from './ProfileDropdown'
 import NotificationsDropdown from './NotificationsDropdown'
@@ -11,39 +14,46 @@ import Badge from '@mui/material/Badge'
 import IconButton from '@mui/material/IconButton'
 
 export default function Header() {
+
+    const { user } = useContext(AuthContext)
+
     return (
         <header className='header'>
             <Link className='logo' to='/'>
                 <img className='logo__img' src={logo} alt='Students Social Logo' />
             </Link>
-            <form className='search-bar__form'>
-                <input className='search-bar__input' type='text' placeholder='Search' />
-                <button className='search-bar__button'>
-                    <img className='search-bar__icon' src={searchIcon} alt='Search icon' />
-                </button>
-            </form>
-            <div className='header__controls'>
-                <Link to='/messages'>
-                    <IconButton aria-label='messages'>
-                        <Badge
-                            badgeContent={0}
-                            color='primary'
-                            sx={{
-                                '& .MuiBadge-badge': {
-                                    right: 3,
-                                    top: 3,
-                                    border: `1px solid #000`,
-                                    padding: '0 4px',
-                                },
-                            }}
-                        >
-                            <img className='messages__icon' src={mailIcon} alt='messages icon' />
-                        </Badge>
-                    </IconButton>
-                </Link>
-                <NotificationsDropdown />
-                <ProfileDropdown />
-            </div>
+            {user ? (
+                <>
+                    <form className='search-bar__form'>
+                        <input className='search-bar__input' type='text' placeholder='Search' />
+                        <button className='search-bar__button'>
+                            <img className='search-bar__icon' src={searchIcon} alt='Search icon' />
+                        </button>
+                    </form>
+                    <div className='header__controls'>
+                        <Link to='/messages'>
+                            <IconButton aria-label='messages'>
+                                <Badge
+                                    badgeContent={0}
+                                    color='primary'
+                                    sx={{
+                                        '& .MuiBadge-badge': {
+                                            right: 3,
+                                            top: 3,
+                                            border: `1px solid #000`,
+                                            padding: '0 4px',
+                                        },
+                                    }}
+                                >
+                                    <img className='messages__icon' src={mailIcon} alt='messages icon' />
+                                </Badge>
+                            </IconButton>
+                        </Link>
+                        <NotificationsDropdown />
+                        <ProfileDropdown />
+                    </div>
+                </>
+            ) : null}
         </header>
     )
 }

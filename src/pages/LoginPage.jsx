@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { AuthContext } from '../context/AuthContext'
 
 import axios from '../api/axiosConfig'
 
@@ -12,6 +13,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 
 export default function LoginPage() {
     const location = useLocation()
+    const { fetchUserData } = useContext(AuthContext)
 
     // States
     const [formData, setFormData] = useState({
@@ -55,7 +57,7 @@ export default function LoginPage() {
         setIsLoading(true)
 
         try {
-            const response = await axios.post('/login',
+            await axios.post('/login',
                 formData,
                 {
                     headers: {
@@ -64,15 +66,11 @@ export default function LoginPage() {
                 }
             )
 
-            if (response.status === 200) {
-                localStorage.setItem('auth-token', response.data)
-                localStorage.setItem('email', formData.email)
+            await fetchUserData()
 
-                setRedirect(true)
-            }
+            setRedirect(true)
         } catch (error) {
             setError(error.response.data)
-
         } finally {
             setIsLoading(false)
         }
@@ -83,64 +81,63 @@ export default function LoginPage() {
     }
 
     return (
-        <main className='main main--auth'>
-            <div className='auth-form__wrapper'>
-                {location.state?.message ? <Alert className='alert--success' severity="success">{location.state.message}</Alert> : null}
-                <h1 className='auth-form__title'>Welcome Back 👋</h1>
-                <p className="auth-form__text">Log in to your account to continue where you left off.</p>
-                <form className='auth-form' onSubmit={handleSubmit}>
+        <div className='auth-form__wrapper'>
+            {location.state?.message ? <Alert className='alert--success' severity="success">{location.state.message}</Alert> : null}
+            <h1 className='auth-form__title'>Welcome Back 👋</h1>
+            <p className="auth-form__text">Log in to your account to continue where you left off.</p>
+            <form className='auth-form' onSubmit={handleSubmit}>
+                <TextField
+                    id='email'
+                    name='email'
+                    label='Email'
+                    variant='outlined'
+                    type='email'
+                    placeholder='horlach@example.com'
+                    value={formData.email}
+                    onChange={handleChange}
+                    error={emailError}
+                    helperText={emailError ? 'Email is not valid' : ''}
+                    required
+                    fullWidth
+                    autoComplete='credential'
+                />
+                <Stack
+                    spacing={2}
+                    direction='column'
+                    sx={{
+                        position: 'relative',
+                        marginTop: '0px'
+                    }}
+                >
                     <TextField
-                        id='email'
-                        name='email'
-                        label='Email'
+                        id='password'
+                        name='password'
+                        label='Password'
                         variant='outlined'
-                        type='email'
-                        placeholder='horlach@example.com'
-                        value={formData.email}
+                        type={isPasswordShow ? 'text' : 'password'}
+                        value={formData.password}
                         onChange={handleChange}
-                        error={emailError}
-                        helperText={emailError ? 'Email is not valid' : ''}
+                        error={passwordError}
+                        helperText={passwordError ? "Password must be stronger" : ''}
+                        autoComplete='current-password'
                         required
-                        fullWidth
-                        autoComplete='on'
                     />
-                    <Stack
-                        spacing={2}
-                        direction='column'
-                        sx={{
-                            position: 'relative',
-                            marginTop: '0px'
-                        }}
-                    >
-                        <TextField
-                            id='password'
-                            name='password'
-                            label='Password'
-                            variant='outlined'
-                            type={isPasswordShow ? 'text' : 'password'}
-                            value={formData.password}
-                            onChange={handleChange}
-                            error={passwordError}
-                            helperText={passwordError ? "Password must be stronger" : ''}
-                            required
-                        />
-                        <Button
-                            variant='text'
-                            className={`eye-button${isPasswordShow ? ' show' : ''}`}
-                            onClick={() => setIsPasswordShow(prevShow => !prevShow)}
-                        >
-                            <VisibilityIcon />
-                        </Button>
-                    </Stack>
-                    {error ? <p className="warning-text">{error}</p> : null}
                     <Button
-                        variant='contained'
-                        type='submit'
-                        loading={isLoading}
-                    >Login</Button>
-                    <p className='auth-form__text'>Don't have an account yet? <Link to='/signup'>Sign up</Link></p>
-                </form>
-            </div>
-        </main>
+                        variant='text'
+                        className={`eye-button${isPasswordShow ? ' show' : ''}`}
+                        onClick={() => setIsPasswordShow(prevShow => !prevShow)}
+                    >
+                        <VisibilityIcon />
+                    </Button>
+                </Stack>
+                {error ? <p className="warning-text">{error}</p> : null}
+                <Button
+                    variant='contained'
+                    type='submit'
+                    loading={isLoading}
+                >Login</Button>
+                <p className='auth-form__text'>Don't have an account yet? <Link to='/signup'>Sign up</Link></p>
+            </form>
+        </div>
     )
 }

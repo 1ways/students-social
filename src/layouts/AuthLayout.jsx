@@ -1,7 +1,20 @@
+import { useContext } from 'react'
 import { Outlet, Navigate } from 'react-router'
 
-export default function AuthLayout() {
-    const isLogged = localStorage.getItem('email') ? true : false
+import CircularProgress from '@mui/material/CircularProgress';
 
-    return isLogged ? <Outlet /> : <Navigate to='/login' />
+import { AuthContext } from '../context/AuthContext'
+
+export default function AuthLayout() {
+    const { user, isLoading } = useContext(AuthContext)
+
+    if (isLoading) {
+        return (
+            <div className="progress__container">
+                <CircularProgress size="3rem" />
+            </div>
+        )
+    }
+
+    return user ? <Outlet /> : <Navigate to='/login' />
 }

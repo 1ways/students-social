@@ -11,8 +11,11 @@ export default function Dropdown({ children, id }) {
     useEffect(() => {
         function handleOutsideClick(e) {
             const parent = e.target.closest('.dropdown__wrapper')
+            const dropdownItem = e.target.closest('.dropdown__item')
 
-            if (!parent) setActiveId(null)
+            if (!parent || dropdownItem) {
+                setActiveId(null)
+            }
         }
 
         window.addEventListener('click', handleOutsideClick)

@@ -140,145 +140,142 @@ export default function SignupPage() {
     }
 
     return (
-        <main className='main main--auth'>
-            <div className='auth-form__wrapper'>
-                <h1 className='auth-form__title'>Let’s Get Started! 🚀</h1>
-                <p className='auth-form__text'>Join the fun - it only takes a few seconds to create your account!</p>
-                <form className='auth-form' onSubmit={handleSubmit}>
-                    <Stack spacing={2} direction='row'>
-                        <TextField
-                            id='firstName'
-                            name='firstName'
-                            label='Firstname'
-                            variant='outlined'
-                            placeholder='Artan'
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            error={firstNameError}
-                            inputProps={{ maxLength: 20 }}
-                            required
-                            fullWidth
-                            autoComplete='on'
-                        />
-                        <TextField
-                            id='lastName'
-                            name='lastName'
-                            label='Lastname'
-                            variant='outlined'
-                            placeholder='Horlach'
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            error={lastNameError}
-                            inputProps={{ maxLength: 20 }}
-                            fullWidth
-                            required
-                            autoComplete='on'
-                        />
-                    </Stack>
+        <div className='auth-form__wrapper'>
+            <h1 className='auth-form__title'>Let’s Get Started! 🚀</h1>
+            <p className='auth-form__text'>Join the fun - it only takes a few seconds to create your account!</p>
+            <form className='auth-form' onSubmit={handleSubmit}>
+                <Stack spacing={2} direction='row'>
                     <TextField
-                        id='username'
-                        name='username'
-                        label='Username'
+                        id='firstName'
+                        name='firstName'
+                        label='Firstname'
                         variant='outlined'
-                        placeholder='horlach123'
-                        value={formData.username}
+                        placeholder='Artan'
+                        value={formData.firstName}
                         onChange={handleChange}
-                        error={usernameError}
+                        error={firstNameError}
+                        inputProps={{ maxLength: 20 }}
+                        required
+                        fullWidth
+                    />
+                    <TextField
+                        id='lastName'
+                        name='lastName'
+                        label='Lastname'
+                        variant='outlined'
+                        placeholder='Horlach'
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        error={lastNameError}
                         inputProps={{ maxLength: 20 }}
                         fullWidth
                         required
-                        autoComplete='on'
                     />
-                    <TextField
-                        id='email'
-                        name='email'
-                        label='Email'
-                        variant='outlined'
-                        type='email'
-                        placeholder='horlach@example.com'
-                        value={formData.email}
-                        onChange={handleChange}
-                        error={emailError}
-                        helperText={emailError ? 'Email is not valid' : ''}
-                        fullWidth
-                        required
-                        autoComplete='on'
+                </Stack>
+                <TextField
+                    id='username'
+                    name='username'
+                    label='Username'
+                    variant='outlined'
+                    placeholder='horlach123'
+                    value={formData.username}
+                    onChange={handleChange}
+                    error={usernameError}
+                    inputProps={{ maxLength: 20 }}
+                    fullWidth
+                    required
+                />
+                <TextField
+                    id='email'
+                    name='email'
+                    label='Email'
+                    variant='outlined'
+                    type='email'
+                    placeholder='horlach@example.com'
+                    value={formData.email}
+                    onChange={handleChange}
+                    error={emailError}
+                    helperText={emailError ? 'Email is not valid' : ''}
+                    fullWidth
+                    required
+                    autoComplete='username'
+                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        label='Pick your birth date *'
+                        value={formData.birthDate}
+                        onChange={handleBirthDateChange}
+                        slotProps={{
+                            textField: {
+                                helperText: birthDateError ?
+                                    <span className='warning-text'>Please enter your birth data</span>
+                                    : ''
+                            },
+                        }}
                     />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            label='Pick your birth date *'
-                            value={formData.birthDate}
-                            onChange={handleBirthDateChange}
-                            slotProps={{
-                                textField: {
-                                    helperText: birthDateError ?
-                                        <span className='warning-text'>Please enter your birth data</span>
-                                        : ''
-                                },
-                            }}
-                        />
-                    </LocalizationProvider>
+                </LocalizationProvider>
+                <Stack
+                    spacing={2}
+                    direction='column'
+                >
                     <Stack
                         spacing={2}
                         direction='column'
+                        sx={{
+                            position: 'relative',
+                            marginTop: '0px'
+                        }}
                     >
-                        <Stack
-                            spacing={2}
-                            direction='column'
-                            sx={{
-                                position: 'relative',
-                                marginTop: '0px'
-                            }}
-                        >
-                            <TextField
-                                id='password'
-                                name='password'
-                                label='Password'
-                                variant='outlined'
-                                type={isPasswordShow ? 'text' : 'password'}
-                                value={formData.password}
-                                onChange={handleChange}
-                                error={passwordError}
-                                helperText={passwordError ? 'Password must be stronger' : ''}
-                                required
-                            />
-                            <Button
-                                variant='text'
-                                className={`eye-button${isPasswordShow ? ' show' : ''}`}
-                                onClick={() => setIsPasswordShow(prevShow => !prevShow)}
-                            >
-                                <VisibilityIcon />
-                            </Button>
-                        </Stack>
-                        <PasswordStrengthBar
-                            password={formData.password}
-                            shortScoreWord={'Too short'}
-                            scoreWords={['Too weak', 'Weak', 'Okay', 'Good', 'Strong']}
-                            onChangeScore={(score) => setScore(score)}
+                        <TextField
+                            id='password'
+                            name='password'
+                            label='Password'
+                            variant='outlined'
+                            type={isPasswordShow ? 'text' : 'password'}
+                            value={formData.password}
+                            onChange={handleChange}
+                            error={passwordError}
+                            helperText={passwordError ? 'Password must be stronger' : ''}
+                            autoComplete='new-password'
+                            required
                         />
+                        <Button
+                            variant='text'
+                            className={`eye-button${isPasswordShow ? ' show' : ''}`}
+                            onClick={() => setIsPasswordShow(prevShow => !prevShow)}
+                        >
+                            <VisibilityIcon />
+                        </Button>
                     </Stack>
-                    <TextField
-                        id='confirmPassword'
-                        name='confirmPassword'
-                        label='Confirm Password'
-                        variant='outlined'
-                        type={isPasswordShow ? 'text' : 'password'}
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        error={confirmPasswordError}
-                        helperText={confirmPasswordError ? "Passwords don't match" : ''}
-                        fullWidth
-                        required
+                    <PasswordStrengthBar
+                        password={formData.password}
+                        shortScoreWord={'Too short'}
+                        scoreWords={['Too weak', 'Weak', 'Okay', 'Good', 'Strong']}
+                        onChangeScore={(score) => setScore(score)}
                     />
-                    {error ? <p className='warning-text'>{error}</p> : null}
-                    <Button
-                        variant='contained'
-                        type='submit'
-                        loading={isLoading}
-                    >Sign up</Button>
-                    <p className='auth-form__text'>Already have an account? <Link to='/login'>Login</Link></p>
-                </form>
-            </div>
-        </main>
+                </Stack>
+                <TextField
+                    id='confirmPassword'
+                    name='confirmPassword'
+                    label='Confirm Password'
+                    variant='outlined'
+                    type={isPasswordShow ? 'text' : 'password'}
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    error={confirmPasswordError}
+                    helperText={confirmPasswordError ? "Passwords don't match" : ''}
+                    fullWidth
+                    autoComplete='new-password'
+                    required
+                />
+                {error ? <p className='warning-text'>{error}</p> : null}
+                <Button
+                    variant='contained'
+                    type='submit'
+                    loading={isLoading}
+                >Sign up</Button>
+                <p className='auth-form__text'>Already have an account? <Link to='/login'>Login</Link></p>
+            </form>
+        </div>
     )
 }
