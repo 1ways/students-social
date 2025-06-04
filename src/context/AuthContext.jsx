@@ -5,7 +5,7 @@ import axios from '../api/axiosConfig'
 export const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(false)
+    const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
 
     // Get logged user data

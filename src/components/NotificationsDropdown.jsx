@@ -5,9 +5,6 @@ import bellIcon from '../assets/images/bell.svg'
 import Badge from '@mui/material/Badge'
 import IconButton from '@mui/material/IconButton'
 
-import personIcon from '../assets/images/person.svg'
-import settingsIcon from '../assets/images/settings.svg'
-import logoutIcon from '../assets/images/logout.svg'
 import { Link } from 'react-router'
 
 export default function NotificationsDropdown() {

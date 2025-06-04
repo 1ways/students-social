@@ -39,10 +39,10 @@ export default function ProfileDropdown() {
             </Dropdown.Button>
             <Dropdown.List>
                 <ul className='dropdown__profile'>
-                    <Dropdown.Item><img src={personIcon} alt='Profile icon' /> My profile</Dropdown.Item>
-                    <Dropdown.Item><img src={settingsIcon} alt='Settings icon' /> Settings</Dropdown.Item>
+                    <Dropdown.Item><img src={personIcon} alt='Profile icon' />My profile</Dropdown.Item>
+                    <Dropdown.Item><img src={settingsIcon} alt='Settings icon' />Settings</Dropdown.Item>
                     <Dropdown.Item className='dropdown__item dropdown__logout' onClick={logout}>
-                        <img src={logoutIcon} alt='Settings icon' /> Log out
+                        <img src={logoutIcon} alt='Settings icon' />Log out
                     </Dropdown.Item>
                 </ul>
             </Dropdown.List>
