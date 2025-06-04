@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const axiosConfig = axios.create({
     withCredentials: true,
-    baseURL: '/api/'
+    baseURL: 'https://students-social-api.onrender.com/api/'
 })
 
 axiosConfig.interceptors.response.use(
@@ -15,7 +15,7 @@ axiosConfig.interceptors.response.use(
 
             try {
 
-                await axios.get('/api/refresh-tokens')
+                await axios.get('https://students-social-api.onrender.com/api/refresh-tokens')
 
                 return axiosConfig(originalRequest)
 
